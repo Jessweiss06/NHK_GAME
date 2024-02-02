@@ -13,7 +13,7 @@ byoeimero.imageLocation = "Byoeimero_Yuokini\\NHK_Concept.png"
 byoeimero.imageResolution = (413, 584)
 byoeimero.name = "Byoeimero"
 byoeimero.dialogueArray = [
-["Hello Tatsuhiro UWU", 0]
+("Hello Tatsuhiro UWU", 0)
 ]
 
 
