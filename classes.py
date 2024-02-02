@@ -16,7 +16,7 @@ class game:
 
 		pygame.font.init()
 		icon = pygame.image.load('icon.png')
-		pygame.display.set_caption("Galge Game")
+		pygame.display.set_caption("Galge")
 		pygame.display.set_icon(icon)
 
 		self.screen = pygame.display.set_mode((900, 675), pygame.RESIZABLE)
