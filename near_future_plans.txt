@@ -1,0 +1,2 @@
+add a button class
+add a "terminal" for dialogue
