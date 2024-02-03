@@ -2,6 +2,10 @@ import classes as cl
 import pygame
 
 clock = pygame.time.Clock()
+screenChangeParameter = -1
+mouseInTerminal = False
+updateScreen = True
+screenHeight = 0
 game = cl.game()
 screenWidth = 0
 fps = 60
@@ -21,15 +25,29 @@ byoeimero.dialogueArray = [
 
 while game.running:
 
-	if game.screen.get_size()[0] != screenWidth:
+	screen = {"width": game.screen.get_size()[0], "height": game.screen.get_size()[1]}
+
+	if screen["width"] != screenWidth:
+		screenChangeParameter = 0
+		updateScreen = True
+
+	if screen["height"] != screenHeight:
+		screenChangeParameter = 1
+		updateScreen = True
+
+	if updateScreen:
+
+		byoeimero.pointer = 0
+		game.terminalLine = 0
+
 		# Girl Test
-		green = (0, 150, 0)
 		byoeimero.drawFrame()
 		game.terminalDraw()
-		game.terminalWrite(byoeimero.dialogueArray[byoeimero.pointer][0], "Monokai", 20, green)
-		byoeimero.pointer += 1
-		game.terminalWrite(byoeimero.dialogueArray[byoeimero.pointer][0], "Monokai", 20, green)
+		game.terminalWrite(byoeimero.dialogueArray[0][0], cl.game.format2)
+		game.terminalWrite(byoeimero.dialogueArray[1][0], cl.game.format2)
+		screenHeight = game.screen.get_size()[1]
 		screenWidth = game.screen.get_size()[0]
+		updateScreen = False
 
 	events = pygame.event.get()
 	for event in events:
