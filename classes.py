@@ -3,6 +3,10 @@ import pygame
 class game:
 
 	pointer = 0
+	terminalLine = 0
+	terminalWidth = 400
+	terminalMargine = 10
+	terminalLineHeight = 14
 
 	# In dialogue Arrays:
 	# 0 means the dialogue is finished
@@ -20,16 +24,42 @@ class game:
 		pygame.display.set_icon(icon)
 
 		self.screen = pygame.display.set_mode((900, 675), pygame.RESIZABLE)
-		self.screen.fill((250, 245, 240))
 		pygame.display.flip()
 
 		self.running = True
 
-	def renderText(self, text, position, font):
-		my_font = pygame.font.SysFont(font, 45)
-		text_surface = my_font.render(text, False, (0, 0, 0))
-		self.screen.blit(text_surface, (position))
+	def terminalDraw(self):
+
+		screenSize = self.screen.get_size()
+		game.terminalMargine = 10
+
+		xPosition = (screenSize[0] - game.terminalWidth)
+		yPosition = game.terminalMargine
+		width = game.terminalWidth - game.terminalMargine
+		length = screenSize[1] - game.terminalMargine * 2
+
+		terminal = pygame.Rect(xPosition, yPosition, width, length)
+
+		color = (0, 0, 0)
+		pygame.draw.rect(self.screen, color, terminal)
 		pygame.display.flip()
+
+	def terminalWrite(self, text, font, size, color):
+
+		my_font = pygame.font.SysFont(font, size)
+		text_surface = my_font.render(text, True, color)
+		innerMargine = 3
+		xOrigin = (self.screen.get_size()[0] - game.terminalWidth) + innerMargine
+		yOrigin = game.terminalMargine + innerMargine + game.terminalLine * game.terminalLineHeight
+		terminalOrigin = (xOrigin, yOrigin)
+
+		self.screen.blit(text_surface, (terminalOrigin))
+		pygame.display.flip()
+
+		game.terminalLine += 1
+
+	def clearScreen(self):
+		self.screen.fill((250, 245, 240))
 
 class protagonist:
 
@@ -52,6 +82,7 @@ class girl:
 		self.name = ""
 		self.dialogueArray = []
 
+		self.imageScaler = 1
 		self.imageLocation = ""
 		self.imageResolution = []
 
@@ -70,20 +101,18 @@ class girl:
 		finalS = "s" if affection != 1 else ""
 		return f"{name} has {affection} affection point{finalS}"
 
-	def draw(self, text):
+	def drawFrame(self):
 
-		self.game.screen.fill((250, 245, 240))
+		self.game.clearScreen()
 
+		scaledImage = (self.imageResolution[0] * self.imageScaler, self.imageResolution[1] * self.imageScaler)
 		self.image = pygame.image.load(self.imageLocation)
-		self.image = pygame.transform.scale(self.image, self.imageResolution)
+		self.image = pygame.transform.scale(self.image, scaledImage)
 		screenWidth = self.game.screen.get_size()[0]
-		imageWidth = self.imageResolution[0]
+		imageWidth = scaledImage[0]
 		imageOrigin = (screenWidth - imageWidth) / 2
+		imageCenterCoordinate = (screenWidth - (imageWidth + game.terminalWidth)) / 2
 
-		# The code below is really janky
-		# Don't forget to make a more elegant solution
 
-		self.game.screen.blit(self.image, (imageOrigin - (imageWidth / 3), 0))
+		self.game.screen.blit(self.image, (imageCenterCoordinate, 0))
 		pygame.display.flip()
-
-		self.game.renderText(text, (imageOrigin + (imageWidth / 5) * 2, 50), "MS Ariel")
