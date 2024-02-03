@@ -1,3 +1,2 @@
-add a button class
-add a "terminal" for dialogue
-terminal will be drawn by a method of "game"
+✗ add a button class
+✓ add a "terminal" for dialogue
