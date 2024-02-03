@@ -8,6 +8,16 @@ class game:
 	terminalMargine = 10
 	terminalLineHeight = 14
 
+	red = (150, 0, 0)
+	gray = (5, 10, 20)
+	green = (0, 150, 0)
+	salmon = (235, 80, 72)
+	pink = (255, 208, 207)
+
+	format1 = ("Mister Sirloin", 20, red)
+	format2 = ("Monokai", 20, salmon)
+	format3 = ("Monokai", 20, green)
+
 	# In dialogue Arrays:
 	# 0 means the dialogue is finished
 	# 1 means the dialogue continues to the next index
@@ -20,7 +30,7 @@ class game:
 
 		pygame.font.init()
 		icon = pygame.image.load('icon.png')
-		pygame.display.set_caption("Galge")
+		pygame.display.set_caption("Gal Game")
 		pygame.display.set_icon(icon)
 
 		self.screen = pygame.display.set_mode((900, 675), pygame.RESIZABLE)
@@ -40,23 +50,23 @@ class game:
 
 		terminal = pygame.Rect(xPosition, yPosition, width, length)
 
-		color = (0, 0, 0)
-		pygame.draw.rect(self.screen, color, terminal)
+		pygame.draw.rect(self.screen, game.pink, terminal)
 		pygame.display.flip()
 
-	def terminalWrite(self, text, font, size, color):
+	def terminalWrite(self, text, textFormat):
 
+		font, size, color = textFormat
 		my_font = pygame.font.SysFont(font, size)
 		text_surface = my_font.render(text, True, color)
 		innerMargine = 3
 		xOrigin = (self.screen.get_size()[0] - game.terminalWidth) + innerMargine
-		yOrigin = game.terminalMargine + innerMargine + game.terminalLine * game.terminalLineHeight
+		yOrigin = game.terminalMargine + innerMargine + self.terminalLine * game.terminalLineHeight
 		terminalOrigin = (xOrigin, yOrigin)
 
 		self.screen.blit(text_surface, (terminalOrigin))
 		pygame.display.flip()
 
-		game.terminalLine += 1
+		self.terminalLine += 1
 
 	def clearScreen(self):
 		self.screen.fill((250, 245, 240))
