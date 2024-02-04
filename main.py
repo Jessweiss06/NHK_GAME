@@ -31,8 +31,8 @@ scriptLength = len(script.script)
 while game.running:
 
 	if count < scriptLength:
-		print(count)
 		script.advance(game)
+		updateScreen = True
 
 	screen = {"width": game.screen.get_size()[0], "height": game.screen.get_size()[1]}
 
