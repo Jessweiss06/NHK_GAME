@@ -14,6 +14,7 @@ mouseInTerminal = False
 updateScreen = True
 screenHeight = 0
 screenWidth = 0
+count = 0
 fps = 60
 
 
@@ -24,12 +25,14 @@ rei = rei.init(game)
 girls = [byoeimero, rei]
 
 script.init(game, girls)
-
-script.advance(game)
-script.advance(game)
+scriptLength = len(script.script)
 
 # Game Loop
 while game.running:
+
+	if count < scriptLength:
+		print(count)
+		script.advance(game)
 
 	screen = {"width": game.screen.get_size()[0], "height": game.screen.get_size()[1]}
 
@@ -60,4 +63,5 @@ while game.running:
 			game.running = False
 			pygame.quit()
 
+	count += 1
 	clock.tick(fps)
