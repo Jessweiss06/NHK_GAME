@@ -7,6 +7,7 @@ class game:
 	terminalWidth = 400
 	terminalMargine = 10
 	terminalLineHeight = 14
+	terminalCache = [("text", "format")]
 
 	red = (150, 0, 0)
 	gray = (5, 10, 20)
@@ -20,7 +21,7 @@ class game:
 
 	# In dialogue Arrays:
 	# 0 means the dialogue is finished
-	# 1 means the dialogue continues to the next index
+	# 1 means the dialogue continues from the previous index
 
 	dialogueArray = [
 	("Please Enter A Name", 0)
@@ -68,6 +69,11 @@ class game:
 
 		self.terminalLine += 1
 
+	def loadTerminalCache(self):
+
+		for entry in self.terminalCache:
+			self.terminalWrite(entry[0], entry[1])
+
 	def clearScreen(self):
 		self.screen.fill((250, 245, 240))
 
@@ -90,7 +96,7 @@ class girl:
 		self.affection = 0
 
 		self.name = ""
-		self.dialogueArray = []
+		self.dialogueArray = ["dialogue", "end or continue"]
 
 		self.imageScaler = 1
 		self.imageLocation = ""
@@ -102,10 +108,17 @@ class girl:
 	def setAffection(self, amount):
 		self.affection = amount
 
-	def advance(self):
-		return f"{self.dialogueArray[self.pointer][0]}"
+	def advance(self, frmt):
+
+		self.game.terminalCache.append((self.dialogueArray[self.pointer][0], frmt))
+		self.pointer += 1
+
+		while self.dialogueArray[self.pointer][1] == 1:
+			self.game.terminalCache.append((self.dialogueArray[self.pointer][0], frmt))
+			self.pointer += 1
 
 	def apraise(self):
+
 		name = self.name
 		affection = self.affection
 		finalS = "s" if affection != 1 else ""
