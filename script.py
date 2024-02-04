@@ -26,6 +26,5 @@ def advance(game):
 	global pointer
 	global script
 
-	if pointer != len(script):
-		script[pointer][0].advance(script[pointer][1])
-		pointer += 1
+	script[pointer][0].advance(script[pointer][1])
+	pointer += 1
