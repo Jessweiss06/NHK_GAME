@@ -1,2 +1,11 @@
-✗ add a button class
-✓ add a "terminal" for dialogue
+add a button class
+make script into a class
+make byoeimeru and rei childeren classes of girl
+move byoeimeru.py and rei.py into their respective folders
+make byoeimeru and rei initialize in one place, script
+allow for audio and animation
+allow for scene changes
+upgrade byoeimeru snd rei sprites
+calculate when thrminal is full and reset cache
+allow for user input
+allow game saving
