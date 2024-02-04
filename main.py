@@ -1,28 +1,34 @@
 import classes as cl
 import pygame
+import script
 
+import byoeimero
+import rei
+
+# Initializing Important Stuff
 clock = pygame.time.Clock()
+game = cl.game()
+
 screenChangeParameter = -1
 mouseInTerminal = False
 updateScreen = True
 screenHeight = 0
-game = cl.game()
 screenWidth = 0
 fps = 60
 
-print("\n\n\nRunning...")
 
-# Girl init
-byoeimero = cl.girl(game)
-byoeimero.imageLocation = "Byoeimero_Yuokini\\NHK_Concept.png"
-byoeimero.imageResolution = (1690, 3508)
-byoeimero.imageScaler = 1/6
-byoeimero.name = "Byoeimero"
-byoeimero.dialogueArray = [
-("Hello Tatsuhiro", 0),
-("I'm Byoeimero UWU", 0)
-]
+# Initializing Script
+byoeimero = byoeimero.init(game)
+rei = rei.init(game)
 
+girls = [byoeimero, rei]
+
+script.init(game, girls)
+
+script.advance(game)
+script.advance(game)
+
+# Game Loop
 while game.running:
 
 	screen = {"width": game.screen.get_size()[0], "height": game.screen.get_size()[1]}
@@ -41,10 +47,9 @@ while game.running:
 		game.terminalLine = 0
 
 		# Girl Test
-		byoeimero.drawFrame()
+		rei.drawFrame()
 		game.terminalDraw()
-		game.terminalWrite(byoeimero.dialogueArray[0][0], cl.game.format2)
-		game.terminalWrite(byoeimero.dialogueArray[1][0], cl.game.format2)
+		game.loadTerminalCache()
 		screenHeight = game.screen.get_size()[1]
 		screenWidth = game.screen.get_size()[0]
 		updateScreen = False
