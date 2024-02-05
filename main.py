@@ -2,9 +2,6 @@ import classes as cl
 import pygame
 import script
 
-import byoeimero
-import rei
-
 # Initializing Important Stuff
 clock = pygame.time.Clock()
 game = cl.game()
@@ -19,12 +16,7 @@ fps = 60
 
 
 # Initializing Script
-byoeimero = byoeimero.init(game)
-rei = rei.init(game)
-
-girls = [byoeimero, rei]
-
-script.init(game, girls)
+script = script.script(game)
 scriptLength = len(script.script)
 
 # Game Loop
@@ -46,11 +38,10 @@ while game.running:
 
 	if updateScreen:
 
-		byoeimero.pointer = 0
 		game.terminalLine = 0
 
 		# Girl Test
-		rei.drawFrame()
+		script.update()
 		game.terminalDraw()
 		game.loadTerminalCache()
 		screenHeight = game.screen.get_size()[1]
