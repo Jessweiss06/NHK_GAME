@@ -1,30 +1,27 @@
 import classes as cl
-import byoeimero
-import rei
+from Byoeimero_Yuokini import byoeimero
+from Rei import rei
 
-def init(game, girls):
+class script:
 
-	global pointer
-	global script
+	def __init__(self, game):
 
-	global byoeimero
-	global rei
+		self.byoeimero = byoeimero.init(game, cl.girl)
+		self.rei = rei.init(game, cl.girl)
 
-	byoeimero = girls[0]
-	rei = girls[1]
+		game.terminalCache = []
 
-	game.terminalCache = []
+		self.pointer = 0
+		self.script = [
+		(self.byoeimero, cl.game.format2),
+		(self.rei, cl.game.format3)
+		]
 
-	pointer = 0
-	script = [
-	(byoeimero, cl.game.format2),
-	(rei, cl.game.format3)
-	]
+	def advance(self, game):
 
-def advance(game):
+		self.script[self.pointer][0].advance(self.script[self.pointer][1])
+		self.pointer += 1
 
-	global pointer
-	global script
+	def update(self):
 
-	script[pointer][0].advance(script[pointer][1])
-	pointer += 1
+		self.rei.drawFrame()
