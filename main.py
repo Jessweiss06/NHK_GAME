@@ -7,12 +7,11 @@ clock = pygame.time.Clock()
 game = cl.game()
 
 screenChangeParameter = -1
-mouseInTerminal = False
 updateScreen = True
 screenHeight = 0
 screenWidth = 0
 count = 0
-fps = 60
+fps = 30
 
 
 # Initializing Script
