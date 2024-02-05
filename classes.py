@@ -29,6 +29,7 @@ class game:
 
 	def __init__(self):
 
+		self.terminalHeight = 0
 		pygame.font.init()
 		icon = pygame.image.load('icon.png')
 		pygame.display.set_caption("Gal Game")
@@ -49,6 +50,8 @@ class game:
 		width = game.terminalWidth - game.terminalMargine
 		length = screenSize[1] - game.terminalMargine * 2
 
+		self.terminalHeight = length
+
 		terminal = pygame.Rect(xPosition, yPosition, width, length)
 
 		pygame.draw.rect(self.screen, game.pink, terminal)
@@ -56,6 +59,11 @@ class game:
 
 	def terminalWrite(self, text, textFormat):
 
+		linesInTerminal = int(self.terminalHeight / self.terminalLineHeight)
+		if self.terminalLine == linesInTerminal:
+			self.terminalCache = []
+
+		print(linesInTerminal)
 		font, size, color = textFormat
 		my_font = pygame.font.SysFont(font, size)
 		text_surface = my_font.render(text, True, color)
