@@ -4,3 +4,5 @@ allow for scene changes
 upgrade byoeimeru snd rei sprites
 allow for user input
 allow game saving
+
+create a command line tool to create custom visual novels using this engine
