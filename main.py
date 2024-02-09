@@ -6,6 +6,8 @@ import script
 clock = pygame.time.Clock()
 game = cl.game()
 
+terminal = cl.terminal(game)
+
 screenChangeParameter = -1
 updateScreen = True
 screenHeight = 0
@@ -15,13 +17,13 @@ fps = 30
 
 
 # Initializing Script
-script = script.script(game)
+script = script.script(game, terminal)
 scriptLength = len(script.script)
 
 # Game Loop
 while game.running:
 
-	if count < scriptLength:
+	if script.pointer < scriptLength and not script.halt:
 		script.advance(game)
 		updateScreen = True
 
@@ -37,12 +39,12 @@ while game.running:
 
 	if updateScreen:
 
-		game.terminalLine = 0
+		terminal.line = 0
 
 		# Girl Test
 		script.update()
-		game.terminalDraw()
-		game.loadTerminalCache()
+		terminal.draw()
+		terminal.loadCache()
 		screenHeight = game.screen.get_size()[1]
 		screenWidth = game.screen.get_size()[0]
 		updateScreen = False
@@ -52,6 +54,11 @@ while game.running:
 		if event.type == pygame.QUIT:
 			game.running = False
 			pygame.quit()
+
+		if event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_RETURN:
+				script.pointer += 1
+				script.halt = False
 
 	count += 1
 	clock.tick(fps)
