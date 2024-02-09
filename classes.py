@@ -40,50 +40,59 @@ class game:
 
 		self.running = True
 
-	def terminalDraw(self):
+	def clearScreen(self):
+		self.screen.fill((250, 245, 240))
 
-		screenSize = self.screen.get_size()
-		game.terminalMargine = 10
+class terminal:
 
-		xPosition = (screenSize[0] - game.terminalWidth)
-		yPosition = game.terminalMargine
-		width = game.terminalWidth - game.terminalMargine
-		length = screenSize[1] - game.terminalMargine * 2
+	def __init__(self, game):
+		self.game = game
+		self.line = 0
+		self.height = 0
+		self.width = 400
+		self.margine = 10
+		self.lineHeight = 14
+		self.cache = [("text", "format")]
 
-		self.terminalHeight = length
+	def draw(self):
 
-		terminal = pygame.Rect(xPosition, yPosition, width, length)
+		screenSize = self.game.screen.get_size()
 
-		pygame.draw.rect(self.screen, game.pink, terminal)
+		xPosition = (screenSize[0] - self.width)
+		yPosition = self.margine
+		width = self.width - self.margine
+		height = screenSize[1] - self.margine * 2
+
+		self.height = height
+
+		terminal = pygame.Rect(xPosition, yPosition, width, height)
+
+		pygame.draw.rect(self.game.screen, self.game.pink, terminal)
 		pygame.display.flip()
 
-	def terminalWrite(self, text, textFormat):
+	def write(self, text, textFormat):
 
-		linesInTerminal = int(self.terminalHeight / self.terminalLineHeight)
-		if self.terminalLine == linesInTerminal:
+		linesInTerminal = int(self.height / self.lineHeight)
+		if self.line == linesInTerminal:
 			self.terminalCache = []
 
-		print(linesInTerminal)
 		font, size, color = textFormat
 		my_font = pygame.font.SysFont(font, size)
 		text_surface = my_font.render(text, True, color)
 		innerMargine = 3
-		xOrigin = (self.screen.get_size()[0] - game.terminalWidth) + innerMargine
-		yOrigin = game.terminalMargine + innerMargine + self.terminalLine * game.terminalLineHeight
+		xOrigin = (self.game.screen.get_size()[0] - self.width) + innerMargine
+		yOrigin = self.margine + innerMargine + self.line * self.lineHeight
 		terminalOrigin = (xOrigin, yOrigin)
 
-		self.screen.blit(text_surface, (terminalOrigin))
+		self.game.screen.blit(text_surface, (terminalOrigin))
 		pygame.display.flip()
 
-		self.terminalLine += 1
+		self.line += 1
 
-	def loadTerminalCache(self):
-
-		for entry in self.terminalCache:
-			self.terminalWrite(entry[0], entry[1])
-
-	def clearScreen(self):
-		self.screen.fill((250, 245, 240))
+	def loadCache(self):
+		
+		for entry in self.cache:
+			self.write(entry[0], entry[1])
 
 class protagonist:
 
@@ -97,11 +106,12 @@ class girl:
 	# because "screen" is an attribute of the instance
 	# not the class
 
-	def __init__(self, game):
+	def __init__(self, game, terminal):
 
 		self.game = game
 		self.pointer = 0
 		self.affection = 0
+		self.terminal = terminal
 
 		self.name = ""
 		self.dialogueArray = ["dialogue", "end or continue"]
@@ -118,11 +128,11 @@ class girl:
 
 	def advance(self, frmt):
 
-		self.game.terminalCache.append((self.dialogueArray[self.pointer][0], frmt))
+		self.terminal.cache.append((self.dialogueArray[self.pointer][0], frmt))
 		self.pointer += 1
 
 		while self.dialogueArray[self.pointer][1] == 1:
-			self.game.terminalCache.append((self.dialogueArray[self.pointer][0], frmt))
+			self.terminal.cache.append((self.dialogueArray[self.pointer][0], frmt))
 			self.pointer += 1
 
 	def apraise(self):
@@ -142,7 +152,7 @@ class girl:
 		screenWidth = self.game.screen.get_size()[0]
 		imageWidth = scaledImage[0]
 		imageOrigin = (screenWidth - imageWidth) / 2
-		imageCenterCoordinate = (screenWidth - (imageWidth + game.terminalWidth)) / 2
+		imageCenterCoordinate = (screenWidth - (imageWidth + self.terminal.width)) / 2
 
 
 		self.game.screen.blit(self.image, (imageCenterCoordinate, 0))
