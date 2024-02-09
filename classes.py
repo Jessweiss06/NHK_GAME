@@ -3,11 +3,6 @@ import pygame
 class game:
 
 	pointer = 0
-	terminalLine = 0
-	terminalWidth = 400
-	terminalMargine = 10
-	terminalLineHeight = 14
-	terminalCache = [("text", "format")]
 
 	red = (150, 0, 0)
 	gray = (5, 10, 20)
