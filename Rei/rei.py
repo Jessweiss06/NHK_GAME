@@ -6,8 +6,11 @@ dialogueArray = [
 ("", 0)
 ]
 
-def init(game, girl):
-	rei = girl(game)
+# init requires an instance of the game class, initialised in main
+# and the girl class (not an instance)
+
+def init(game, terminal, girl):
+	rei = girl(game, terminal)
 	rei.imageLocation = "Rei\\NHK_Concept.png"
 	rei.imageResolution = (817, 3508)
 	rei.imageScaler = 1/6
