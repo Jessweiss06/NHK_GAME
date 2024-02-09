@@ -13,8 +13,11 @@ dialogueArray = [
 ("", 0),
 ]
 
-def init(game, girl):
-	byoeimero = girl(game)
+# init requires an instance of the game class, initialised in main
+# and the girl class (not an instance)
+
+def init(game, terminal, girl):
+	byoeimero = girl(game, terminal)
 	byoeimero.imageLocation = "Byoeimero_Yuokini\\NHK_Concept.png"
 	byoeimero.imageResolution = (1690, 3508)
 	byoeimero.imageScaler = 1/6
