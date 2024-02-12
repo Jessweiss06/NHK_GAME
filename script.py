@@ -1,5 +1,6 @@
 import classes as cl
 from Byoeimero_Yuokini import byoeimero
+from Misaki import misaki
 from Rei import rei
 
 class script:
@@ -8,6 +9,7 @@ class script:
 
 		self.byoeimero = byoeimero.init(game, terminal, cl.girl)
 		self.rei = rei.init(game, terminal, cl.girl)
+		self.misaki = misaki.init(game, terminal, cl.girl)
 
 		terminal.cache = []
 
