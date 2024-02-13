@@ -134,6 +134,7 @@ class girl:
 
 	def drawFrame(self, frame):
 
+		self.currentFrame = frame
 		self.game.clearScreen()
 
 		image = self.imageLocation[frame]
