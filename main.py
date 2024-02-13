@@ -68,7 +68,6 @@ while game.running:
 
 		if event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_RETURN:
-				if command == "": script.pointer += 1
 				script.halt = False
 				script.run(command)
 				command = ""
