@@ -109,11 +109,9 @@ class girl:
 		self.terminal = terminal
 
 		self.name = ""
+		self.currentFrame = 0
 		self.dialogueArray = ["dialogue", "end or continue"]
-
-		self.imageScaler = 1
-		self.imageLocation = ""
-		self.imageResolution = []
+		self.imageLocation = ["location", "resolution", "scaler"]
 
 	def setPointer(self, position):
 		self.pointer = position
@@ -137,12 +135,13 @@ class girl:
 		finalS = "s" if affection != 1 else ""
 		return f"{name} has {affection} affection point{finalS}"
 
-	def drawFrame(self):
+	def drawFrame(self, frame):
 
 		self.game.clearScreen()
 
-		scaledImage = (self.imageResolution[0] * self.imageScaler, self.imageResolution[1] * self.imageScaler)
-		self.image = pygame.image.load(self.imageLocation)
+		image = self.imageLocation[frame]
+		scaledImage = (image[1][0] * image[2], image[1][1] * image[2])
+		self.image = pygame.image.load(image[0])
 		self.image = pygame.transform.scale(self.image, scaledImage)
 		screenWidth = self.game.screen.get_size()[0]
 		imageWidth = scaledImage[0]
