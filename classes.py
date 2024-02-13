@@ -7,12 +7,15 @@ class game:
 	red = (150, 0, 0)
 	gray = (5, 10, 20)
 	green = (0, 150, 0)
+	blue = (137, 169, 201)
 	salmon = (235, 80, 72)
 	pink = (255, 208, 207)
 
 	format1 = ("Mister Sirloin", 20, red)
 	format2 = ("Monokai", 20, salmon)
 	format3 = ("Monokai", 20, green)
+	format4 = ("Monokai", 20, blue)
+	format5 = ("Monokai", 20, gray)
 
 	# In dialogue Arrays:
 	# 0 means the dialogue is finished
@@ -22,20 +25,24 @@ class game:
 	("Please Enter A Name", 0)
 	]
 
+	# by moving the code within init to main
+	# and removing self as a required paramater from clearScreen
+	# game never needs to be initialised which might make the code more intuitive (idk)
+
 	def __init__(self):
 
-		self.terminalHeight = 0
+		game.terminalHeight = 0
 		pygame.font.init()
 		icon = pygame.image.load('icon.png')
 		pygame.display.set_caption("Gal Game")
 		pygame.display.set_icon(icon)
 
-		self.screen = pygame.display.set_mode((900, 675), pygame.RESIZABLE)
+		game.screen = pygame.display.set_mode((900, 675), pygame.RESIZABLE)
 
-		self.running = True
+		game.running = True
 
 	def clearScreen(self):
-		self.screen.fill((250, 245, 240))
+		game.screen.fill((250, 245, 240))
 
 class terminal:
 
@@ -110,12 +117,6 @@ class girl:
 		self.dialogueArray = ["dialogue", "end or continue"]
 		self.imageLocation = ["location", "resolution", "scaler"]
 
-	def setPointer(self, position):
-		self.pointer = position
-
-	def setAffection(self, amount):
-		self.affection = amount
-
 	def advance(self, frmt):
 
 		self.terminal.cache.append((self.dialogueArray[self.pointer][0], frmt))
@@ -124,13 +125,6 @@ class girl:
 		while self.dialogueArray[self.pointer][1] == 1:
 			self.terminal.cache.append((self.dialogueArray[self.pointer][0], frmt))
 			self.pointer += 1
-
-	def apraise(self):
-
-		name = self.name
-		affection = self.affection
-		finalS = "s" if affection != 1 else ""
-		return f"{name} has {affection} affection point{finalS}"
 
 	def drawFrame(self, frame):
 
