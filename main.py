@@ -2,25 +2,31 @@ import classes as cl
 import pygame
 import script
 
-# Initializing Important Stuff
+
+# <Initializing Important Stuff>
 clock = pygame.time.Clock()
 game = cl.game()
 
 terminal = cl.terminal(game)
+# </Initializing Important Stuff>
 
+
+# <Declaring Important Variables>
 screenChangeParameter = -1
 updateScreen = True
 screenHeight = 0
 screenWidth = 0
-count = 0
 fps = 30
+# </Declaring Important Variables>
 
 
-# Initializing Script
+# <Initializing Script>
 script = script.script(game, terminal)
 scriptLength = len(script.script)
+# </Initializing Script>
 
-# Game Loop
+
+# <Game Loop>
 while game.running:
 
 	if script.pointer < scriptLength and not script.halt:
@@ -41,13 +47,17 @@ while game.running:
 
 		terminal.line = 0
 
-		# Girl Test
+		# <Redrawing Frame>
 		script.currentGirl.drawFrame(script.currentGirl.currentFrame)
 		terminal.draw()
 		terminal.loadCache()
+		# </Redrawing Frame>
+
 		screenHeight = game.screen.get_size()[1]
 		screenWidth = game.screen.get_size()[0]
 		updateScreen = False
+
+		pygame.display.flip()
 
 	events = pygame.event.get()
 	for event in events:
@@ -60,5 +70,5 @@ while game.running:
 				script.pointer += 1
 				script.halt = False
 
-	count += 1
 	clock.tick(fps)
+# </Game Loop>
