@@ -68,14 +68,16 @@ while game.running:
 
 		if event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_RETURN:
-				script.pointer += 1
+				if command == "": script.pointer += 1
 				script.halt = False
 				script.run(command)
 				command = ""
 
 		if event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_BACKSPACE: 
-				command = command[:-1] 
+				command = command[:-1]
+			elif event.key == pygame.K_RETURN:
+				command = command[:-1]
 			else: 
 				command += event.unicode
 
