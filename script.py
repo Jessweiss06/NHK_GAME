@@ -39,12 +39,21 @@ class script:
 		"byoeimero": self.byoeimero
 		}
 
+		if term[1] not in classs:
+			print("invalid command")
+			self.pointer += 1
+			return
+
 		method = {
 		"appraise": self.appraise(classs[term[1]])
 		}
 
-		if term[1] in classs and term[0] in method:
-			method[term[0]]
+		if term[0] not in method:
+			print("invalid command")
+			self.pointer += 1
+			return
+		
+		method[term[0]]
 
 	# <Developer Commands>
 	def appraise(self, girl):
