@@ -9,16 +9,20 @@ dialogueArray = [
 ("", 0)
 ]
 
+imageLocation = [
+("Misaki\\holdingContract.jpg", (1024, 1024), 14/20)
+]
+
 # init requires an instance of the game class, initialised in main
 # and an instance of the terminal class, initialised in main
 # and the girl class (not an instance)
 
 def init(game, terminal, girl):
+
 	misaki = girl(game, terminal)
-	misaki.imageLocation = "Misaki\\holdingContract.jpg"
-	misaki.imageResolution = (1024, 1024)
-	misaki.imageScaler = 14/20
-	misaki.name = "Misaki"
+
 	misaki.dialogueArray = dialogueArray
+	misaki.imageLocation = imageLocation
+	misaki.name = "Misaki"
 
 	return misaki
