@@ -19,7 +19,7 @@ dialogueArray = [
 def init(game, terminal, girl):
 	byoeimero = girl(game, terminal)
 	byoeimero.imageLocation = "Byoeimero_Yuokini\\NHK_Concept.png"
-	byoeimero.imageResolution = (1690, 3508)
+	byoeimero.imageResolution = (2480, 3508)
 	byoeimero.imageScaler = 1/6
 	byoeimero.name = "Byoeimero"
 	byoeimero.dialogueArray = dialogueArray
