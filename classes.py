@@ -31,7 +31,6 @@ class game:
 		pygame.display.set_icon(icon)
 
 		self.screen = pygame.display.set_mode((900, 675), pygame.RESIZABLE)
-		pygame.display.flip()
 
 		self.running = True
 
@@ -63,7 +62,6 @@ class terminal:
 		terminal = pygame.Rect(xPosition, yPosition, width, height)
 
 		pygame.draw.rect(self.game.screen, self.game.pink, terminal)
-		pygame.display.flip()
 
 	def write(self, text, textFormat):
 
@@ -80,7 +78,6 @@ class terminal:
 		terminalOrigin = (xOrigin, yOrigin)
 
 		self.game.screen.blit(text_surface, (terminalOrigin))
-		pygame.display.flip()
 
 		self.line += 1
 
@@ -150,4 +147,3 @@ class girl:
 
 
 		self.game.screen.blit(self.image, (imageCenterCoordinate, 0))
-		pygame.display.flip()
