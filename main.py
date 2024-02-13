@@ -42,7 +42,7 @@ while game.running:
 		terminal.line = 0
 
 		# Girl Test
-		script.currentGirl.drawFrame()
+		script.currentGirl.drawFrame(script.currentGirl.currentFrame)
 		terminal.draw()
 		terminal.loadCache()
 		screenHeight = game.screen.get_size()[1]
