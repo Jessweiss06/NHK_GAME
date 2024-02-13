@@ -29,9 +29,20 @@ class script:
 
 	def run(self, command):
 
+		approvedClasses = ["rei", "misaki", "byoeimero"]
+		approvedMethods = ["appraise"]
 		term = command.split()
+		command = True
+
 		print(f"command {term}")
-		if len(term) < 2: return
+
+		if len(term) < 2: command = False
+		if not command:
+			self.pointer += 1
+			return
+
+		if term[1] in approvedClasses and term[0] in approvedMethods: command = True
+		else: command = False
 
 		classs = {
 		"rei": self.rei,
@@ -39,19 +50,9 @@ class script:
 		"byoeimero": self.byoeimero
 		}
 
-		if term[1] not in classs:
-			print("invalid command")
-			self.pointer += 1
-			return
-
 		method = {
 		"appraise": self.appraise(classs[term[1]])
 		}
-
-		if term[0] not in method:
-			print("invalid command")
-			self.pointer += 1
-			return
 		
 		method[term[0]]
 
