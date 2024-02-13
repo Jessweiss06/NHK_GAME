@@ -16,6 +16,7 @@ screenChangeParameter = -1
 updateScreen = True
 screenHeight = 0
 screenWidth = 0
+command = ""
 fps = 30
 # </Declaring Important Variables>
 
@@ -69,6 +70,15 @@ while game.running:
 			if event.key == pygame.K_RETURN:
 				script.pointer += 1
 				script.halt = False
+				script.run(command)
+				command = ""
+
+		if event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_BACKSPACE: 
+				command = command[:-1] 
+			else: 
+				command += event.unicode
+
 
 	clock.tick(fps)
 # </Game Loop>
