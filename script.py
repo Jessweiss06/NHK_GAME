@@ -30,6 +30,7 @@ class script:
 	def run(self, command):
 
 		term = command.split()
+		print(f"command {term}")
 		if len(term) < 2: return
 
 		classs = {
