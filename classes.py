@@ -44,6 +44,27 @@ class game:
 	def clearScreen(self):
 		game.screen.fill((250, 245, 240))
 
+class event:
+	
+	# an event type of 0 does nothing
+	raised = 0
+	
+	def check():
+		return event.raised
+	
+	def handle(raised):
+		doAction = {
+		0 : event.noAction()
+		}
+		
+		doAction[raised]
+	
+	def noAction():
+		return
+
+	def halt():
+		pass
+
 class terminal:
 
 	def __init__(self, game):
