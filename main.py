@@ -35,7 +35,8 @@ while game.running:
 	screenWidthChanged = currentScreenWidth != game.screenWidth
 	screenHeightChanged = currentScreenHeight != game.screenHeight
 	screenChanged = screenWidthChanged or screenHeightChanged
-	game.screenUpdateScheduled = screenChanged or game.screenUpdateScheduled
+	#game.screenUpdateScheduled = screenChanged or game.screenUpdateScheduled
+	if screenChanged: game.screenUpdateScheduled = True
 
 	# updating screen if needed
 	if game.screenUpdateScheduled: game.updateScreen(terminal, script)
