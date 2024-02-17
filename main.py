@@ -32,8 +32,10 @@ while game.running:
 		script.advance(game)
 
 	# scheduling screen update if the window was resized
-	if currentScreenWidth != game.screenWidth or currentScreenHeight != game.screenHeight:
-		game.screenUpdateScheduled = True
+	screenWidthChanged = currentScreenWidth != game.screenWidth
+	screenHeightChanged = currentScreenHeight != game.screenHeight
+	screenChanged = screenWidthChanged or screenHeightChanged
+	game.screenUpdateScheduled = screenChanged or game.screenUpdateScheduled
 
 	# updating screen if needed
 	if game.screenUpdateScheduled: game.updateScreen(terminal, script)
