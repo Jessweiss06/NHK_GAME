@@ -8,78 +8,37 @@ clock = pygame.time.Clock()
 game = cl.game()
 
 terminal = cl.terminal(game)
+script = script.script(game, terminal)
+userIO = cl.userIO(script)
 # </Initializing Important Stuff>
 
 
 # <Declaring Important Variables>
-screenChangeParameter = -1
-updateScreen = True
-screenHeight = 0
-screenWidth = 0
-command = ""
+scriptLength = len(script.script)
 fps = 30
 # </Declaring Important Variables>
 
-
-# <Initializing Script>
-script = script.script(game, terminal)
-scriptLength = len(script.script)
-# </Initializing Script>
 
 
 # <Game Loop>
 while game.running:
 
+	currentScreenWidth = game.screen.get_size()[0]
+	currentScreenHeight = game.screen.get_size()[1]
+
+	# advancing game and scheduling screen update if possible
 	if script.pointer < scriptLength and not script.halt:
+		game.screenUpdateScheduled = True
 		script.advance(game)
-		updateScreen = True
 
-	screen = {"width": game.screen.get_size()[0], "height": game.screen.get_size()[1]}
+	# scheduling screen update if the window was resized
+	if currentScreenWidth != game.screenWidth or currentScreenHeight != game.screenHeight:
+		game.screenUpdateScheduled = True
 
-	if screen["width"] != screenWidth:
-		screenChangeParameter = 0
-		updateScreen = True
+	# updating screen if needed
+	if game.screenUpdateScheduled: game.updateScreen(terminal, script)
 
-	if screen["height"] != screenHeight:
-		screenChangeParameter = 1
-		updateScreen = True
-
-	if updateScreen:
-
-		terminal.line = 0
-
-		# <Redrawing Frame>
-		script.currentGirl.drawFrame(script.currentGirl.currentFrame)
-		terminal.draw()
-		terminal.loadCache()
-		# </Redrawing Frame>
-
-		screenHeight = game.screen.get_size()[1]
-		screenWidth = game.screen.get_size()[0]
-		updateScreen = False
-
-		pygame.display.flip()
-
-	events = pygame.event.get()
-	for event in events:
-		if event.type == pygame.QUIT:
-			game.running = False
-			pygame.quit()
-
-		if event.type == pygame.KEYDOWN:
-			if event.key == pygame.K_RETURN:
-				script.halt = False
-				script.run(command)
-				command = ""
-
-		if event.type == pygame.KEYDOWN:
-			if event.key == pygame.K_BACKSPACE: 
-				command = command[:-1]
-			elif event.key == pygame.K_RETURN:
-				command = command[:-1]
-			else: 
-				command += event.unicode
-
-
+	cl.event.handle(cl.event.raised)
+	userIO.handle()
 	clock.tick(fps)
 # </Game Loop>
