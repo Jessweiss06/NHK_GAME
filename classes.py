@@ -17,6 +17,8 @@ class game:
 	format4 = ("Monokai", 20, blue)
 	format5 = ("Monokai", 20, gray)
 
+	command = ""
+
 	# In dialogue Arrays:
 	# 0 means the dialogue is finished
 	# 1 means the dialogue continues from the previous index
@@ -31,6 +33,10 @@ class game:
 
 	def __init__(self):
 
+		self.screenUpdateScheduled = True
+		self.screenHeight = 0
+		self.screenWidth = 0
+
 		game.terminalHeight = 0
 		pygame.font.init()
 		icon = pygame.image.load('icon.png')
@@ -42,7 +48,25 @@ class game:
 		game.running = True
 
 	def clearScreen(self):
-		game.screen.fill((250, 245, 240))
+		self.screen.fill((250, 245, 240))
+
+	def updateScreen(self, terminal, script):
+
+		terminal.line = 0
+
+		# <Redrawing Frame>
+		script.currentGirl.drawFrame(script.currentGirl.currentFrame)
+		terminal.draw()
+		terminal.loadCache()
+		# </Redrawing Frame>
+
+		self.screenHeight = game.screen.get_size()[1]
+		self.screenWidth = game.screen.get_size()[0]
+		self.screenUpdateScheduled = False
+
+		pygame.display.flip()
+
+
 
 class event:
 	
@@ -64,6 +88,58 @@ class event:
 
 	def halt():
 		pass
+
+
+
+class userIO:
+
+	def __init__(self, script):
+
+		self.script = script
+		self.event = ""
+
+		self.do = {
+		# Game Events
+		pygame.QUIT : self.quit,
+		pygame.KEYDOWN : self.keydown,
+
+		# Keypress Events
+		pygame.K_RETURN : self.enterPress,
+		pygame.K_BACKSPACE : self.backspacePress,
+		"unspecifiedKeypress": self.updateCommand
+		}
+
+	def handle(self):
+
+		self.events = pygame.event.get()
+
+		for event in self.events:
+			self.event = event
+			if event.type in self.do: self.do[event.type]()
+
+	def quit(self):
+
+		game.running = False
+		pygame.quit()
+
+	def keydown(self):
+
+		if self.event.key in self.do: self.do[self.event.key]()
+		else: self.do["unspecifiedKeypress"]()
+
+	def enterPress(self):
+
+		self.script.halt = False
+		self.script.run(game.command)
+		game.command = ""
+
+	def backspacePress(self):
+		game.command = game.command[:-1]
+
+	def updateCommand(self):
+		game.command += self.event.unicode
+
+
 
 class terminal:
 
@@ -114,11 +190,15 @@ class terminal:
 		for entry in self.cache:
 			self.write(entry[0], entry[1])
 
+
+
 class protagonist:
 
 	def __init__(self, name):
 		self.name = name
 		self.reputation = 0
+
+
 
 class girl:
 
