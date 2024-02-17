@@ -1,9 +1,9 @@
-add a button class
 allow for audio and animation
 allow for scene changes
 upgrade byoeimeru snd rei sprites
 allow for user input
 allow game saving
-make some proper documentation 
+make some proper documentation
+make commands only work after a specific "command" key is pressed
 
 create a command line tool to create custom visual novels using this engine
